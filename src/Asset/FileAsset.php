@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Eventjet\AssetManager\Asset;
 
-use function function_exists;
+use Narrowspark\MimeType\MimeType;
+
 use function mb_strlen;
-use function pathinfo;
-use function strlen;
 
 final class FileAsset implements Asset
 {
@@ -27,18 +26,7 @@ final class FileAsset implements Asset
 
     public function getMimeType(): string
     {
-        $mimeType = $this->mimeType($this->getPath());
-        if ($mimeType !== 'text/plain') {
-            return $mimeType;
-        }
-        ['extension' => $extension] = pathinfo($this->getPath());
-        if ($extension === 'css') {
-            return 'text/css';
-        }
-        if ($extension === 'js') {
-            return 'text/javascript';
-        }
-        return $mimeType;
+        return MimeType::guess($this->getPath());
     }
 
     public function getContent(): string
@@ -51,17 +39,6 @@ final class FileAsset implements Asset
 
     public function getContentLength(): int
     {
-        if (!function_exists('mb_strlen')) {
-            return strlen($this->getContent());
-        }
         return mb_strlen($this->getContent(), '8bit');
-    }
-
-    private function mimeType(string $filename): string
-    {
-        return \Safe\mime_content_type($filename);
-        // todo remove when we solved mime type issues
-        //$result = new \finfo();
-        //return $result->file($filename, FILEINFO_MIME_TYPE);
     }
 }

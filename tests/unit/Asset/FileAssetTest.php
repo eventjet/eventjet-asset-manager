@@ -32,14 +32,14 @@ class FileAssetTest extends TestCase
     {
         $filename = $this->createTmpFile('/** javascript */', '.js');
 
-        self::assertSame('text/javascript', (new FileAsset($filename))->getMimeType());
+        self::assertSame('application/javascript', (new FileAsset($filename))->getMimeType());
     }
 
     public function testGetMimeTypeForJson(): void
     {
-        $filename = $this->createTmpFile('{}', '.json');
+        $filename = $this->createTmpFile('/** json */', '.json');
 
-        self::assertSame('text/json', (new FileAsset($filename))->getMimeType());
+        self::assertSame('application/json', (new FileAsset($filename))->getMimeType());
     }
 
     public function testGetMimeTypeForCss(): void
@@ -49,18 +49,18 @@ class FileAssetTest extends TestCase
         self::assertSame('text/css', (new FileAsset($filename))->getMimeType());
     }
 
-    public function testGetMimeTypeForPdfFiles(): void
+    public function testGetMimeTypeLooksForFileHeaderToDetermineMimeTypeForFilesWithoutEnding(): void
     {
-        $filename = $this->createTmpFile("%PDF-1.6", '.pdf');
+        $filename = $this->createTmpFile('%PDF-1.6', '');
 
         self::assertSame('application/pdf', (new FileAsset($filename))->getMimeType());
     }
 
-    public function testGetMimeTypeForEmptyFiles(): void
+    public function testGetMimeTypeIgnoresFileHeaderWhenEndingIsPresent(): void
     {
-        $filename = $this->createTmpFile('', '.pdf');
+        $filename = $this->createTmpFile('%PDF-1.6', '.jpeg');
 
-        self::assertSame('application/x-empty', (new FileAsset($filename))->getMimeType());
+        self::assertSame('image/jpeg', (new FileAsset($filename))->getMimeType());
     }
 
     private function createTmpFile(?string $content = null, ?string $ending = null): string
