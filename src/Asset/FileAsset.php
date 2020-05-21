@@ -17,6 +17,7 @@ final class FileAsset implements Asset
     public function __construct(string $fullPath)
     {
         $this->fullPath = $fullPath;
+        $this->content = null;
     }
 
     public function getPath(): string
@@ -26,7 +27,7 @@ final class FileAsset implements Asset
 
     public function getMimeType(): string
     {
-        $mimeType = \Safe\mime_content_type($this->getPath());
+        $mimeType = $this->mimeType($this->getPath());
         if ($mimeType !== 'text/plain') {
             return $mimeType;
         }
@@ -54,5 +55,13 @@ final class FileAsset implements Asset
             return strlen($this->getContent());
         }
         return mb_strlen($this->getContent(), '8bit');
+    }
+
+    private function mimeType(string $filename): string
+    {
+        return \Safe\mime_content_type($filename);
+        // todo remove when we solved mime type issues
+        //$result = new \finfo();
+        //return $result->file($filename, FILEINFO_MIME_TYPE);
     }
 }
