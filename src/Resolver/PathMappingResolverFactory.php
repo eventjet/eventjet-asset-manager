@@ -6,6 +6,9 @@ namespace Eventjet\AssetManager\Resolver;
 
 use Eventjet\AssetManager\Asset\AssetFactory;
 use Psr\Container\ContainerInterface;
+use RuntimeException;
+
+use function count;
 
 final class PathMappingResolverFactory
 {
@@ -24,6 +27,12 @@ final class PathMappingResolverFactory
     {
         /** @var array<string, mixed> $config */
         $config = $container->get('config');
-        return $config['eventjet']['asset_manager']['paths'];
+        $paths = $config['eventjet']['asset_manager']['paths'] ?? [];
+        if (count($paths) < 1) {
+            throw new RuntimeException(
+                'Path mapping is missing. Please configure your path mapping at "eventjet.asset_manager.paths"'
+            );
+        }
+        return $paths;
     }
 }

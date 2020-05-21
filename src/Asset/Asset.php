@@ -10,7 +10,7 @@ interface Asset
 
     public function getMimeType(): string;
 
-    public function getContentLength(): int;
+    public function getContentLength(): string;
 
     public function getContent(): string;
 }

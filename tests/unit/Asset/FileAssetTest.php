@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Eventjet\Test\Unit\AssetManager\Asset;
 
 use Eventjet\AssetManager\Asset\FileAsset;
+use Eventjet\Test\Unit\AssetManager\ObjectFactory;
 use PHPUnit\Framework\TestCase;
 
 class FileAssetTest extends TestCase
@@ -25,7 +26,13 @@ class FileAssetTest extends TestCase
     {
         $filename = $this->createTmpFile('foobar');
 
-        self::assertSame(6, (new FileAsset($filename))->getContentLength());
+        self::assertSame('6', (new FileAsset($filename))->getContentLength());
+    }
+
+    public function testGetContentLengthForMbString(): void
+    {
+        self::markTestIncomplete('We need an example for an mb_ string.');
+        // Then replace "strlen($this->getContent())" with "mb_strlen($this->getContent(), '8bit')"
     }
 
     public function testGetMimeTypeForJs(): void
@@ -49,26 +56,17 @@ class FileAssetTest extends TestCase
         self::assertSame('text/css', (new FileAsset($filename))->getMimeType());
     }
 
-    public function testGetMimeTypeLooksForFileHeaderToDetermineMimeTypeForFilesWithoutEnding(): void
+    public function testGetMimeTypeFallsBackToOctetStreamMimeType(): void
     {
-        $filename = $this->createTmpFile('%PDF-1.6', '');
+        $filename = $this->createTmpFile('', '');
 
-        self::assertSame('application/pdf', (new FileAsset($filename))->getMimeType());
-    }
-
-    public function testGetMimeTypeIgnoresFileHeaderWhenEndingIsPresent(): void
-    {
-        $filename = $this->createTmpFile('%PDF-1.6', '.jpeg');
-
-        self::assertSame('image/jpeg', (new FileAsset($filename))->getMimeType());
+        self::assertSame('application/octet-stream', (new FileAsset($filename))->getMimeType());
     }
 
     private function createTmpFile(?string $content = null, ?string $ending = null): string
     {
-        $ending = $ending ?? '';
-        $filename = stream_get_meta_data(\Safe\tmpfile())['uri'];
+        $filename = ObjectFactory::randomFileName();
         $filename = $filename . $ending;
-        \Safe\file_put_contents($filename, $content ?? '');
-        return $filename;
+        return ObjectFactory::tmpFile($content, $filename);
     }
 }

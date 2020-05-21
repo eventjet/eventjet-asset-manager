@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Eventjet\AssetManager\Asset;
 
-use Narrowspark\MimeType\MimeType;
-
-use function mb_strlen;
+use Narrowspark\MimeType\MimeTypeExtensionGuesser;
+use SplFileInfo;
 
 final class FileAsset implements Asset
 {
@@ -26,7 +25,7 @@ final class FileAsset implements Asset
 
     public function getMimeType(): string
     {
-        return MimeType::guess($this->getPath());
+        return MimeTypeExtensionGuesser::guess($this->getExtension()) ?? 'application/octet-stream';
     }
 
     public function getContent(): string
@@ -37,8 +36,13 @@ final class FileAsset implements Asset
         return $this->content;
     }
 
-    public function getContentLength(): int
+    public function getContentLength(): string
     {
-        return mb_strlen($this->getContent(), '8bit');
+        return (string)strlen($this->getContent());
+    }
+
+    private function getExtension(): string
+    {
+        return (new SplFileInfo($this->getPath()))->getExtension();
     }
 }

@@ -8,15 +8,18 @@ use Eventjet\AssetManager\Resolver\Resolver;
 use Laminas\Diactoros\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use RuntimeException;
 
 final class AssetManager
 {
     private Resolver $resolver;
+    private StreamFactoryInterface $streamFactory;
 
-    public function __construct(Resolver $resolver)
+    public function __construct(Resolver $resolver, StreamFactoryInterface $streamFactory)
     {
         $this->resolver = $resolver;
+        $this->streamFactory = $streamFactory;
     }
 
     public function resolvesToAsset(RequestInterface $request): bool
@@ -32,12 +35,11 @@ final class AssetManager
                 'Asset could not be resolved. Use "resolvesToAsset" before "buildAssetResponse".'
             );
         }
-        $response = (new Response())
+        return (new Response())
             ->withStatus(200)
             ->withAddedHeader('Content-Transfer-Encoding', 'binary')
             ->withAddedHeader('Content-Type', $asset->getMimeType())
-            ->withAddedHeader('Content-Length', (string)$asset->getContentLength());
-        $response->getBody()->write($asset->getContent());
-        return $response;
+            ->withAddedHeader('Content-Length', $asset->getContentLength())
+            ->withBody($this->streamFactory->createStreamFromFile($asset->getPath()));
     }
 }

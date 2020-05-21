@@ -9,12 +9,12 @@ use Eventjet\AssetManager\Asset\AssetFactory;
 
 final class PathMappingResolver implements Resolver
 {
-    /** @var array<string, string> */
+    /** @var string[] */
     private array $pathMapping;
     private AssetFactory $factory;
 
     /**
-     * @param array<string, string> $pathMapping
+     * @param string[] $pathMapping
      */
     public function __construct(array $pathMapping, AssetFactory $factory)
     {
