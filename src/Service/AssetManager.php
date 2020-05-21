@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Eventjet\AssetManager\Service;
 
-use Eventjet\AssetManager\Resolver\Resolver;
+use Eventjet\AssetManager\Resolver\ResolverInterface;
 use Laminas\Diactoros\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -13,10 +13,10 @@ use RuntimeException;
 
 final class AssetManager
 {
-    private Resolver $resolver;
+    private ResolverInterface $resolver;
     private StreamFactoryInterface $streamFactory;
 
-    public function __construct(Resolver $resolver, StreamFactoryInterface $streamFactory)
+    public function __construct(ResolverInterface $resolver, StreamFactoryInterface $streamFactory)
     {
         $this->resolver = $resolver;
         $this->streamFactory = $streamFactory;

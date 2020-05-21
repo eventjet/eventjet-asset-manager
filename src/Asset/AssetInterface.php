@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Eventjet\AssetManager\Asset;
 
-interface Asset
+interface AssetInterface
 {
     public function getPath(): string;
 

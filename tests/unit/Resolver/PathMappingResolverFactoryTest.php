@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Eventjet\Test\Unit\AssetManager\Resolver;
 
-use Eventjet\AssetManager\Asset\AssetFactory;
+use Eventjet\AssetManager\Asset\AssetFactoryInterface;
 use Eventjet\AssetManager\Asset\FileAssetFactory;
 use Eventjet\AssetManager\Resolver\PathMappingResolverFactory;
 use Eventjet\Test\Unit\AssetManager\ObjectFactory;
@@ -32,7 +32,7 @@ class PathMappingResolverFactoryTest extends TestCase
         $fileName = ObjectFactory::randomFileName();
         $tmpFile = ObjectFactory::tmpFile('', $fileName);
         $config = ['eventjet' => ['asset_manager' => ['paths' => $paths]]];
-        $stub = new ContainerStub(['config' => $config, AssetFactory::class => new FileAssetFactory()]);
+        $stub = new ContainerStub(['config' => $config, AssetFactoryInterface::class => new FileAssetFactory()]);
 
         $resolver = (new PathMappingResolverFactory())($stub);
 
@@ -47,7 +47,7 @@ class PathMappingResolverFactoryTest extends TestCase
         $fileName = ObjectFactory::randomFileName();
         $tmpFile = ObjectFactory::tmpFile('', $fileName);
         $config = ['eventjet' => ['asset_manager' => ['paths' => $paths]]];
-        $stub = new ContainerStub(['config' => $config, AssetFactory::class => new FileAssetFactory()]);
+        $stub = new ContainerStub(['config' => $config, AssetFactoryInterface::class => new FileAssetFactory()]);
 
         $resolver = (new PathMappingResolverFactory())($stub);
 

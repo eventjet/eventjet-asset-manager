@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Eventjet\AssetManager\Resolver;
 
-use Eventjet\AssetManager\Asset\AssetFactory;
+use Eventjet\AssetManager\Asset\AssetFactoryInterface;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
 
@@ -16,7 +16,7 @@ final class PathMappingResolverFactory
     {
         return new PathMappingResolver(
             $this->paths($container),
-            $container->get(AssetFactory::class)
+            $container->get(AssetFactoryInterface::class)
         );
     }
 

@@ -7,7 +7,7 @@ namespace Eventjet\AssetManager\Asset;
 use Narrowspark\MimeType\MimeTypeExtensionGuesser;
 use SplFileInfo;
 
-final class FileAsset implements Asset
+final class FileAsset implements AssetInterface
 {
     private ?string $content;
     private string $fullPath;

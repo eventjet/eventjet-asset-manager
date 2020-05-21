@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Eventjet\AssetManager;
 
-use Eventjet\AssetManager\Asset\AssetFactory;
+use Eventjet\AssetManager\Asset\AssetFactoryInterface;
 use Eventjet\AssetManager\Asset\FileAssetFactory;
 use Eventjet\AssetManager\Resolver\PathMappingResolver;
 use Eventjet\AssetManager\Resolver\PathMappingResolverFactory;
-use Eventjet\AssetManager\Resolver\Resolver;
+use Eventjet\AssetManager\Resolver\ResolverInterface;
 
 final class ConfigProvider
 {
@@ -20,8 +20,8 @@ final class ConfigProvider
         return [
             'dependencies' => [
                 'aliases' => [
-                    AssetFactory::class => FileAssetFactory::class,
-                    Resolver::class => PathMappingResolver::class,
+                    AssetFactoryInterface::class => FileAssetFactory::class,
+                    ResolverInterface::class => PathMappingResolver::class,
                 ],
                 'factories' => [
                     PathMappingResolver::class => PathMappingResolverFactory::class,

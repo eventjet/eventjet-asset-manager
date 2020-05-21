@@ -4,25 +4,25 @@ declare(strict_types=1);
 
 namespace Eventjet\AssetManager\Resolver;
 
-use Eventjet\AssetManager\Asset\Asset;
-use Eventjet\AssetManager\Asset\AssetFactory;
+use Eventjet\AssetManager\Asset\AssetFactoryInterface;
+use Eventjet\AssetManager\Asset\AssetInterface;
 
-final class PathMappingResolver implements Resolver
+final class PathMappingResolver implements ResolverInterface
 {
     /** @var string[] */
     private array $pathMapping;
-    private AssetFactory $factory;
+    private AssetFactoryInterface $factory;
 
     /**
      * @param string[] $pathMapping
      */
-    public function __construct(array $pathMapping, AssetFactory $factory)
+    public function __construct(array $pathMapping, AssetFactoryInterface $factory)
     {
         $this->pathMapping = $pathMapping;
         $this->factory = $factory;
     }
 
-    public function resolve(string $path): ?Asset
+    public function resolve(string $path): ?AssetInterface
     {
         if ($path === '/') {
             return null;
