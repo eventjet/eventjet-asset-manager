@@ -39,8 +39,8 @@ jobs:
 
       - name: Tests
         run: |
-          vendor/bin/phpunit --coverage-clover=coverage.xml --stop-on-failure || true
-          composer run --timeout=0 infection || true
+          vendor/bin/phpunit --coverage-clover=coverage.xml
+          composer run --timeout=0 infection
 
       - name: Monitor coverage
         if: github.event_name == 'pull_request'
