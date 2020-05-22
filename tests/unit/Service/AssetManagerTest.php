@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Eventjet\Test\Unit\AssetManager\Service;
 
-use DateTimeZone;
 use Eventjet\AssetManager\Asset\FileAsset;
 use Eventjet\AssetManager\Service\AssetManager;
 use Eventjet\Test\Unit\AssetManager\ObjectFactory;
@@ -13,7 +12,8 @@ use Fig\Http\Message\StatusCodeInterface;
 use Laminas\Diactoros\StreamFactory;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Safe\DateTimeImmutable;
+
+use function gmdate;
 
 class AssetManagerTest extends TestCase
 {
@@ -40,11 +40,7 @@ class AssetManagerTest extends TestCase
 
         $response = $this->manager->buildAssetResponse(ObjectFactory::serverRequest());
 
-        $expectedLastModify = DateTimeImmutable::createFromFormat(
-            'U',
-            \Safe\filemtime($asset->getPath()),
-            new DateTimeZone('UTC')
-        )->format(DATE_RFC7231);
+        $expectedLastModify = gmdate(DATE_RFC7231, \Safe\filemtime($asset->getPath()));
         self::assertSame(200, $response->getStatusCode());
         self::assertSame('binary', $response->getHeaderLine('Content-Transfer-Encoding'));
         self::assertSame('application/javascript', $response->getHeaderLine('Content-Type'));
@@ -75,8 +71,7 @@ class AssetManagerTest extends TestCase
         $asset = new FileAsset(ObjectFactory::tmpFile('/** js */', 'test.js'));
         $this->resolver->setResolvedAsset($asset);
         $filemtime = \Safe\filemtime($asset->getPath());
-        $wantedLastModify = DateTimeImmutable::createFromFormat('U', $filemtime, new DateTimeZone('UTC'))
-            ->format(DATE_RFC7231);
+        $wantedLastModify = gmdate(DATE_RFC7231, $filemtime);
         $request = ObjectFactory::serverRequest(
             null,
             null,
