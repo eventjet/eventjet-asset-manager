@@ -66,12 +66,46 @@ class AssetManagerTest extends TestCase
         self::assertSame(StatusCodeInterface::STATUS_NOT_MODIFIED, $response->getStatusCode());
     }
 
-    public function testReturnsNotModifiedIfNotModifiedSinceMatches(): void
+    public function testReturnsNotModifiedIfModifiedSinceMatches(): void
     {
         $asset = new FileAsset(ObjectFactory::tmpFile('/** js */', 'test.js'));
         $this->resolver->setResolvedAsset($asset);
         $filemtime = \Safe\filemtime($asset->getPath());
         $wantedLastModify = gmdate(DATE_RFC7231, $filemtime);
+        $request = ObjectFactory::serverRequest(
+            null,
+            null,
+            ['HTTP_IF_MODIFIED_SINCE' => $wantedLastModify]
+        );
+
+        $response = $this->manager->buildAssetResponse($request);
+
+        self::assertSame(StatusCodeInterface::STATUS_NOT_MODIFIED, $response->getStatusCode());
+    }
+
+    public function testReturnsCompleteAssetIfModifiedSinceIsOlderThanFile(): void
+    {
+        $asset = new FileAsset(ObjectFactory::tmpFile('/** js */', 'test.js'));
+        $this->resolver->setResolvedAsset($asset);
+        $filemtime = \Safe\filemtime($asset->getPath());
+        $wantedLastModify = gmdate(DATE_RFC7231, $filemtime - 86400);
+        $request = ObjectFactory::serverRequest(
+            null,
+            null,
+            ['HTTP_IF_MODIFIED_SINCE' => $wantedLastModify]
+        );
+
+        $response = $this->manager->buildAssetResponse($request);
+
+        self::assertSame(StatusCodeInterface::STATUS_OK, $response->getStatusCode());
+    }
+
+    public function testReturnsNotModifiedIfModifiedSinceIsNewerThanFile(): void
+    {
+        $asset = new FileAsset(ObjectFactory::tmpFile('/** js */', 'test.js'));
+        $this->resolver->setResolvedAsset($asset);
+        $filemtime = \Safe\filemtime($asset->getPath());
+        $wantedLastModify = gmdate(DATE_RFC7231, $filemtime + 86400);
         $request = ObjectFactory::serverRequest(
             null,
             null,

@@ -69,7 +69,7 @@ final class AssetManager
             ->withAddedHeader('Etag', $etagFile)
             ->withAddedHeader('Cache-Control', 'public');
 
-        if ($etagHeader === $etagFile || $ifModifiedSince === $lastModified) {
+        if ($etagHeader === $etagFile || $ifModifiedSince >= $lastModified) {
             return $response
                 ->withStatus(StatusCodeInterface::STATUS_NOT_MODIFIED, 'Not Modified');
         }
