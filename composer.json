@@ -33,6 +33,12 @@
     "config": {
         "sort-packages": true
     },
+    "extra": {
+        "laminas": {
+            "config-provider": "Eventjet\\AssetManager\\ConfigProvider",
+            "module": "Eventjet\\AssetManager"
+        }
+    },
     "autoload": {
         "psr-4": {
             "Eventjet\\AssetManager\\": "src"
