@@ -18,14 +18,27 @@ final class ConfigProvider
     public function __invoke(): array
     {
         return [
-            'dependencies' => [
-                'aliases' => [
-                    AssetFactoryInterface::class => FileAssetFactory::class,
-                    ResolverInterface::class => PathMappingResolver::class,
+            'dependencies' => $this->dependencyConfig(),
+            'eventjet' => [
+                'asset_manager' => [
+                    'paths' => [],
                 ],
-                'factories' => [
-                    PathMappingResolver::class => PathMappingResolverFactory::class,
-                ],
+            ],
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function dependencyConfig(): array
+    {
+        return [
+            'aliases' => [
+                AssetFactoryInterface::class => FileAssetFactory::class,
+                ResolverInterface::class => PathMappingResolver::class,
+            ],
+            'factories' => [
+                PathMappingResolver::class => PathMappingResolverFactory::class,
             ],
         ];
     }

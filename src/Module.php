@@ -11,9 +11,8 @@ final class Module
      */
     public function getConfig(): array
     {
-        $config = (new ConfigProvider())();
-        $config['service_manager'] = $config['dependencies'] ?? [];
-        unset($config['dependencies']);
-        return $config;
+        return [
+            'service_manager' => (new ConfigProvider())->dependencyConfig(),
+        ];
     }
 }
