@@ -28,5 +28,7 @@ class ConfigProviderTest extends TestCase
         self::assertSame(PathMappingResolver::class, $deps['aliases'][ResolverInterface::class]);
         self::assertArrayHasKey(PathMappingResolver::class, $deps['factories']);
         self::assertSame(PathMappingResolverFactory::class, $deps['factories'][PathMappingResolver::class]);
+        self::assertArrayHasKey('paths', $config['eventjet']['asset_manager']);
+        self::assertEmpty($config['eventjet']['asset_manager']['paths']);
     }
 }
