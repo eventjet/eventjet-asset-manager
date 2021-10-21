@@ -18,6 +18,8 @@ use function random_bytes;
 use function str_replace;
 use function stream_get_meta_data;
 
+use const DIRECTORY_SEPARATOR;
+
 final class ObjectFactory
 {
     public static function tmpFileName(): string

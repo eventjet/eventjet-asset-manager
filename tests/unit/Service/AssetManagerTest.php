@@ -15,6 +15,8 @@ use RuntimeException;
 
 use function gmdate;
 
+use const DATE_RFC7231;
+
 class AssetManagerTest extends TestCase
 {
     private ResolverStub $resolver;

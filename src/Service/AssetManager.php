@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Eventjet\AssetManager\Service;
 
+use DateTimeImmutable;
 use DateTimeZone;
 use Eventjet\AssetManager\Resolver\ResolverInterface;
 use Fig\Http\Message\StatusCodeInterface;
@@ -13,8 +14,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use RuntimeException;
-use Safe\DateTimeImmutable;
-use Safe\Exceptions\DatetimeException;
 
 use function gmdate;
 use function is_string;
@@ -49,17 +48,21 @@ final class AssetManager
         $etagFile = \Safe\md5_file($asset->getPath());
 
         $serverParams = $request->getServerParams();
+        /** @var string|null $ifModifiedSince */
         $ifModifiedSince = $serverParams['HTTP_IF_MODIFIED_SINCE'] ?? null;
+        /** @var string|null $etagHeader */
         $etagHeader = $serverParams['HTTP_IF_NONE_MATCH'] ?? null;
 
         if (is_string($ifModifiedSince)) {
-            try {
-                $ifModifiedSince = DateTimeImmutable::createFromFormat(
-                    DATE_RFC7231,
-                    $ifModifiedSince,
-                    new DateTimeZone('UTC')
-                )->getTimestamp();
-            } catch (DatetimeException $exception) {
+            $modifiedDate = DateTimeImmutable::createFromFormat(
+                DATE_RFC7231,
+                $ifModifiedSince,
+                new DateTimeZone('UTC')
+            );
+
+            if ($modifiedDate instanceof DateTimeImmutable) {
+                $ifModifiedSince = $modifiedDate->getTimestamp();
+            } else {
                 $ifModifiedSince = null;
             }
         }

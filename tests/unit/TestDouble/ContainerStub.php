@@ -22,18 +22,14 @@ final class ContainerStub implements ContainerInterface
     }
 
     /**
-     * @param mixed $id
      * @return mixed
      */
-    public function get($id)
+    public function get(string $id)
     {
         return $this->map[$id] ?? null;
     }
 
-    /**
-     * @param mixed $id
-     */
-    public function has($id): bool
+    public function has(string $id): bool
     {
         return array_key_exists($id, $this->map);
     }
