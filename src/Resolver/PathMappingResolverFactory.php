@@ -18,7 +18,7 @@ final class PathMappingResolverFactory
     }
 
     /**
-     * @return array<string>
+     * @return array<array-key, string>
      */
     private function paths(ContainerInterface $container): array
     {

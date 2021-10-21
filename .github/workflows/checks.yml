@@ -1,13 +1,20 @@
 name: Check Build
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   build:
 
+    strategy:
+      matrix:
+        php: ["7.4", "8.0"]
+        include:
+          - php: "8.0"
+            composer_args: "--ignore-platform-reqs"
+
     runs-on: ubuntu-latest
     container:
-      image: eventjet/checks-7.4:latest
+      image: eventjet/checks-${{ matrix.php }}:latest
 
     steps:
       - name: Checkout
@@ -17,23 +24,24 @@ jobs:
         run: |
           mkdir -p /root/.ssh
           ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts
+          echo "COMPOSER_CACHE=$(composer config cache-dir)" >> $GITHUB_ENV
 
       - name: Composer Cache
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
-          path: $(composer config cache-files-dir)
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+          path: |
+            ${{ env.COMPOSER_CACHE }}
+            vendor
+          key: ${{ runner.os }}-composer
 
       - name: Install dependencies
         run: |
-          composer install --no-progress --no-suggest --no-interaction > /dev/null
+          composer update --no-progress --no-interaction ${{ matrix.composer_args }} > /dev/null
 
       - name: Static analysis
         run: |
           composer check-deps
-          composer cs-check
+          composer cs-check -- --runtime-set php_version 70400
           composer phpstan -- --no-progress
           composer psalm
 
@@ -42,11 +50,19 @@ jobs:
           vendor/bin/phpunit --coverage-clover=coverage.xml --stop-on-failure
           composer run --timeout=0 infection
 
+      - name: Save Infection result
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: infection-log.txt
+          path: infection-log.txt
+
       - name: Monitor coverage
         if: github.event_name == 'pull_request'
-        uses: slavcodev/coverage-monitor-action@1.0.1
+        uses: slavcodev/coverage-monitor-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           clover_file: "coverage.xml"
-          threshold_alert: 90
-          threshold_warning: 95
+          comment_context: PHP ${{ matrix.php }}
+          threshold_alert: 100
+          threshold_warning: 100

@@ -7,14 +7,16 @@ namespace Eventjet\AssetManager\Resolver;
 use Eventjet\AssetManager\Asset\AssetFactoryInterface;
 use Eventjet\AssetManager\Asset\AssetInterface;
 
+use function file_exists;
+
 final class PathMappingResolver implements ResolverInterface
 {
-    /** @var string[] */
+    /** @var array<array-key, string> */
     private array $pathMapping;
     private AssetFactoryInterface $factory;
 
     /**
-     * @param string[] $pathMapping
+     * @param array<array-key, string> $pathMapping
      */
     public function __construct(array $pathMapping, AssetFactoryInterface $factory)
     {
