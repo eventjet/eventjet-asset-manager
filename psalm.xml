@@ -13,6 +13,15 @@
             <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
+    <issueHandlers>
+        <!-- psalm doesn't understand the Assert::assertArrayHasKey assertions of PHPUnit -->
+        <PossiblyUndefinedArrayOffset>
+            <errorLevel type="info">
+                <file name="tests/functional/ModuleTest.php"/>
+                <file name="tests/unit/ConfigProviderTest.php"/>
+            </errorLevel>
+        </PossiblyUndefinedArrayOffset>
+    </issueHandlers>
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
     </plugins>
