@@ -8,6 +8,12 @@ jobs:
     strategy:
       matrix:
         php: ["7.4", "8.0", "8.1"]
+        # this package supports PHP 8.0 and 8.1 but narrowspark/mimetypes still doesn't (https://github.com/narrowspark/mimetypes/issues/27)
+        include:
+          - php: "8.0"
+            composer_args: "--ignore-platform-reqs"
+          - php: "8.1"
+            composer_args: "--ignore-platform-reqs"
 
     runs-on: ubuntu-latest
     container:
