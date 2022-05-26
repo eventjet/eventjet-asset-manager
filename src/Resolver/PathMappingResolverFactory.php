@@ -22,7 +22,7 @@ final class PathMappingResolverFactory
      */
     private function paths(ContainerInterface $container): array
     {
-        /** @var array<string, mixed> $config */
+        /** @var array{eventjet?: array{asset_manager?: array{paths?: array<array-key, string>}}} $config */
         $config = $container->get('config');
         return $config['eventjet']['asset_manager']['paths'] ?? [];
     }

@@ -1,10 +1,10 @@
 {
     "name": "eventjet/asset-manager",
-    "type": "library",
     "description": "Asset manager middleware",
     "license": "MIT",
+    "type": "library",
     "require": {
-        "php": "^7.4",
+        "php": "^7.4 || ^8.0",
         "ext-fileinfo": "*",
         "ext-mbstring": "*",
         "fig/http-message-util": "^1.1",
@@ -15,29 +15,22 @@
         "psr/http-message": "^1.0",
         "psr/http-server-handler": "^1.0",
         "psr/http-server-middleware": "^1.0",
-        "thecodingmachine/safe": "^1.1"
+        "thecodingmachine/safe": "^1.1 || ^2.0"
     },
     "require-dev": {
+        "bnf/phpstan-psr-container": "^1.0",
         "eventjet/coding-standard": "^3.7",
-        "infection/infection": "^0.25",
-        "maglnet/composer-require-checker": "^3.3",
-        "nette/php-generator": "^3.3",
-        "phpstan/extension-installer": "^1.0",
-        "phpstan/phpstan": "^0.12.5",
-        "phpstan/phpstan-phpunit": "^0.12.6",
-        "phpstan/phpstan-strict-rules": "^0.12.1",
+        "infection/infection": "^0.26",
+        "maglnet/composer-require-checker": "^3.3 || ^4.0",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan": "^1.6",
+        "phpstan/phpstan-phpunit": "^1.1",
+        "phpstan/phpstan-strict-rules": "^1.2",
         "phpunit/phpunit": "^9.5",
+        "psalm/plugin-phpunit": "^0.16.1",
         "vimeo/psalm": "^4.10"
     },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "laminas": {
-            "config-provider": "Eventjet\\AssetManager\\ConfigProvider",
-            "module": "Eventjet\\AssetManager"
-        }
-    },
+    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
             "Eventjet\\AssetManager\\": "src"
@@ -49,7 +42,20 @@
             "Eventjet\\Test\\Unit\\AssetManager\\": "tests/unit"
         }
     },
-    "minimum-stability": "stable",
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "infection/extension-installer": true,
+            "phpstan/extension-installer": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "laminas": {
+            "config-provider": "Eventjet\\AssetManager\\ConfigProvider",
+            "module": "Eventjet\\AssetManager"
+        }
+    },
     "scripts": {
         "check": [
             "@check-deps",
@@ -63,6 +69,7 @@
         "cs-check": "vendor/bin/phpcs",
         "cs-fix": "vendor/bin/phpcbf",
         "infection": "vendor/bin/infection --threads=4",
+        "infection-diff": "@composer run --timeout=0 infection -- --git-diff-base=origin/master --git-diff-filter=A --min-msi=100 --min-covered-msi=100",
         "infection-xdebug": "@composer run --timeout=0 infection -- --initial-tests-php-options='-d zend_extension=xdebug.so'",
         "phpstan": "vendor/bin/phpstan analyse",
         "phpunit": "vendor/bin/phpunit",
