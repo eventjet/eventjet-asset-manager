@@ -8,8 +8,8 @@ use DateTimeImmutable;
 use DateTimeZone;
 use Eventjet\AssetManager\Resolver\ResolverInterface;
 use Fig\Http\Message\StatusCodeInterface;
-use Laminas\Diactoros\Response;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -24,11 +24,16 @@ final class AssetManager
 {
     private ResolverInterface $resolver;
     private StreamFactoryInterface $streamFactory;
+    private ResponseFactoryInterface $responseFactory;
 
-    public function __construct(ResolverInterface $resolver, StreamFactoryInterface $streamFactory)
-    {
+    public function __construct(
+        ResolverInterface $resolver,
+        StreamFactoryInterface $streamFactory,
+        ResponseFactoryInterface $responseFactory
+    ) {
         $this->resolver = $resolver;
         $this->streamFactory = $streamFactory;
+        $this->responseFactory = $responseFactory;
     }
 
     public function resolvesToAsset(RequestInterface $request): bool
@@ -67,7 +72,7 @@ final class AssetManager
             }
         }
 
-        $response = (new Response())
+        $response = $this->responseFactory->createResponse()
             ->withAddedHeader('Last-Modified', gmdate(DATE_RFC7231, $lastModified))
             ->withAddedHeader('Etag', $etagFile)
             ->withAddedHeader('Cache-Control', 'public');

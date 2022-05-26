@@ -9,6 +9,7 @@ use Eventjet\AssetManager\Service\AssetManager;
 use Eventjet\Test\Unit\AssetManager\ObjectFactory;
 use Eventjet\Test\Unit\AssetManager\TestDouble\ResolverStub;
 use Fig\Http\Message\StatusCodeInterface;
+use Laminas\Diactoros\ResponseFactory;
 use Laminas\Diactoros\StreamFactory;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
@@ -138,6 +139,6 @@ class AssetManagerTest extends TestCase
     {
         parent::setUp();
         $this->resolver = new ResolverStub();
-        $this->manager = new AssetManager($this->resolver, new StreamFactory());
+        $this->manager = new AssetManager($this->resolver, new StreamFactory(), new ResponseFactory());
     }
 }

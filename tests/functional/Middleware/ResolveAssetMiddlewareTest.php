@@ -9,6 +9,7 @@ use Eventjet\AssetManager\Middleware\ResolveAssetMiddleware;
 use Eventjet\AssetManager\Resolver\PathMappingResolver;
 use Eventjet\AssetManager\Service\AssetManager;
 use Eventjet\Test\Unit\AssetManager\ObjectFactory;
+use Laminas\Diactoros\ResponseFactory;
 use Laminas\Diactoros\StreamFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -45,7 +46,11 @@ class ResolveAssetMiddlewareTest extends TestCase
     {
         parent::setUp();
         $paths = [ObjectFactory::pathToTmpFiles()];
-        $manager = new AssetManager(new PathMappingResolver($paths, new FileAssetFactory()), new StreamFactory());
+        $manager = new AssetManager(
+            new PathMappingResolver($paths, new FileAssetFactory()),
+            new StreamFactory(),
+            new ResponseFactory()
+        );
         $this->middleware = new ResolveAssetMiddleware($manager);
     }
 }
