@@ -21,7 +21,7 @@
         "eventjet/coding-standard": "^3.7",
         "infection/infection": "^0.26",
         "laminas/laminas-diactoros": "^2.3",
-        "maglnet/composer-require-checker": "^3.3 || ^4.0",
+        "maglnet/composer-require-checker": "^3.3",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^1.6",
         "phpstan/phpstan-phpunit": "^1.1",
