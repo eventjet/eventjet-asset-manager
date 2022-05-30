@@ -20,6 +20,15 @@ class ModuleTest extends TestCase
 
     public function testDependencyKeyIsRenamedToServiceManager(): void
     {
+        /**
+         * @var array{
+         *     dependencies?: array<string, mixed>,
+         *     service_manager?: array{
+         *         aliases?: array<string, string>,
+         *         factories?: array<string, string>,
+         *     }
+         * } $config
+         */
         $config = $this->module->getConfig();
 
         self::assertArrayNotHasKey('dependencies', $config);

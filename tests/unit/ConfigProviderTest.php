@@ -16,9 +16,18 @@ class ConfigProviderTest extends TestCase
 {
     public function testConfig(): void
     {
+        /**
+         * @var array{
+         *     dependencies?: array{aliases?: array<string, string>, factories?: array<string, string>},
+         *     eventjet: array{asset_manager: array{paths?: array<array-key, string>}},
+         * } $config
+         */
         $config = (new ConfigProvider())();
 
         self::assertArrayHasKey('dependencies', $config);
+        /**
+         * @var array{aliases?: array<string, string>, factories?: array<string, string>} $deps
+         */
         $deps = $config['dependencies'];
         self::assertArrayHasKey('aliases', $deps);
         self::assertArrayHasKey('factories', $deps);

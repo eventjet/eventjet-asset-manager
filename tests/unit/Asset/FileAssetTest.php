@@ -63,6 +63,13 @@ class FileAssetTest extends TestCase
         self::assertSame('application/octet-stream', (new FileAsset($filename))->getMimeType());
     }
 
+    public function testMimeTypeExtensionIsCaseInsensitive(): void
+    {
+        $filename = $this->createTmpFile('/** css */', '.CSS');
+
+        self::assertSame('text/css', (new FileAsset($filename))->getMimeType());
+    }
+
     private function createTmpFile(?string $content = null, ?string $ending = null): string
     {
         $filename = ObjectFactory::randomFileName();
