@@ -64,10 +64,8 @@ jobs:
           name: infection-log-${{ matrix.php }}.txt
           path: infection-log.txt
 
-      - name: Tests
-        run: |
-          vendor/bin/phpunit --coverage-clover=coverage.xml --stop-on-failure
-          composer run --timeout=0 infection
+      - name: PHPUnit
+        run: vendor/bin/phpunit --coverage-clover=coverage.xml --stop-on-failure
 
       - name: Save Infection result
         uses: actions/upload-artifact@v3
