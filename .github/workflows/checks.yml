@@ -37,7 +37,7 @@ jobs:
         run: |
           composer update --no-progress --no-interaction ${{ matrix.composer_args }} > /dev/null
 
-      - name: Static analysis
+      - name: Static Analysis
         run: |
           composer check-deps
           composer cs-check
