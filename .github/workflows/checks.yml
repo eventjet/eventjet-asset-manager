@@ -7,7 +7,7 @@ jobs:
 
     strategy:
       matrix:
-        php: ["7.4", "8.0", "8.1"]
+        php: ["8.1", "8.2"]
 
     runs-on: ubuntu-latest
     container:
@@ -44,15 +44,25 @@ jobs:
           composer phpstan -- --no-progress
           composer psalm
 
-      - name: Infection coverage of added files
-        if: env.GIT_ADDED_FILES != '' && !contains(github.event.pull_request.labels.*.name, 'skip-infection-diff')
+      - name: Infection coverage of changed lines
+        if: "!contains(github.event.pull_request.labels.*.name, 'skip-infection')"
         run: |
+          git fetch origin $GITHUB_BASE_REF $GITHUB_HEAD_REF
           vendor/bin/infection \
             --git-diff-base=origin/$GITHUB_BASE_REF \
-            --git-diff-filter=A \
+            --git-diff-lines \
             --logger-github \
             --min-msi=100 \
-            --min-covered-msi=100
+            --min-covered-msi=100 \
+            --ignore-msi-with-no-mutations \
+            -jmax
+
+      - name: Save Infection result
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: infection-log-${{ matrix.php }}.txt
+          path: infection-log.txt
 
       - name: Tests
         run: |

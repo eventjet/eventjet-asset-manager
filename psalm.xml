@@ -21,6 +21,8 @@
                 <file name="tests/unit/ConfigProviderTest.php"/>
             </errorLevel>
         </PossiblyUndefinedArrayOffset>
+
+
     </issueHandlers>
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>

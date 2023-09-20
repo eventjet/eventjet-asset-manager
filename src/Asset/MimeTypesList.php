@@ -33,9 +33,6 @@ class MimeTypesList
      * @see http://www.iana.org/assignments/media-types/media-types.xhtml
      * @see http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
      * @see http://hg.nginx.org/nginx/file/tip/conf/mime.types
-     *
-     * @var array<string, list<string>>
-     * @phpstan-ignore-next-line
      */
     public const MIMES = [
         'ez' => [
