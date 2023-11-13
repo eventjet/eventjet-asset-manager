@@ -19,6 +19,7 @@ use function filemtime;
 use function gmdate;
 use function is_string;
 use function md5_file;
+use function time;
 
 use const DATE_RFC7231;
 
@@ -53,12 +54,12 @@ final class AssetManager
         }
         $lastModified = filemtime($asset->getPath());
         if ($lastModified === false) {
-            $lastModified = 0;
+            $lastModified = time();
         }
 
         $etagFile = md5_file($asset->getPath());
         if ($etagFile === false) {
-            $etagFile = '';
+            $etagFile = null;
         }
 
         $serverParams = $request->getServerParams();
@@ -83,9 +84,10 @@ final class AssetManager
 
         $response = $this->responseFactory->createResponse()
             ->withAddedHeader('Last-Modified', gmdate(DATE_RFC7231, $lastModified))
-            ->withAddedHeader('Etag', $etagFile)
             ->withAddedHeader('Cache-Control', 'public');
-
+        if ($etagFile !== null) {
+            $response = $response->withAddedHeader('Etag', $etagFile);
+        }
         if ($etagHeader === $etagFile || $ifModifiedSince >= $lastModified) {
             return $response
                 ->withStatus(StatusCodeInterface::STATUS_NOT_MODIFIED, 'Not Modified');
