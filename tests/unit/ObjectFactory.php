@@ -12,11 +12,14 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use SplFileInfo;
 
+use function assert;
 use function basename;
 use function bin2hex;
+use function file_put_contents;
 use function random_bytes;
 use function str_replace;
 use function stream_get_meta_data;
+use function tmpfile;
 
 use const DIRECTORY_SEPARATOR;
 
@@ -24,7 +27,9 @@ final class ObjectFactory
 {
     public static function tmpFileName(): string
     {
-        return stream_get_meta_data(\Safe\tmpfile())['uri'];
+        $file = tmpfile();
+        assert($file !== false);
+        return stream_get_meta_data($file)['uri'];
     }
 
     public static function pathToTmpFiles(): string
@@ -38,7 +43,7 @@ final class ObjectFactory
         if ($filename !== null) {
             $tmpFile = str_replace(basename($tmpFile), $filename, $tmpFile);
         }
-        \Safe\file_put_contents($tmpFile, $content ?? '');
+        file_put_contents($tmpFile, $content ?? '');
         return $tmpFile;
     }
 

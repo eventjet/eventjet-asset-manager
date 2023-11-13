@@ -8,13 +8,18 @@ use Eventjet\AssetManager\Asset\FileAsset;
 use Eventjet\AssetManager\Service\AssetManager;
 use Eventjet\Test\Unit\AssetManager\ObjectFactory;
 use Eventjet\Test\Unit\AssetManager\TestDouble\ResolverStub;
+use Eventjet\Test\Unit\AssetManager\TestDouble\StreamFactoryStub;
 use Fig\Http\Message\StatusCodeInterface;
 use Laminas\Diactoros\ResponseFactory;
 use Laminas\Diactoros\StreamFactory;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
+use function assert;
+use function filemtime;
 use function gmdate;
+use function md5_file;
+use function time;
 
 use const DATE_RFC7231;
 
@@ -43,15 +48,39 @@ class AssetManagerTest extends TestCase
 
         $response = $this->manager->buildAssetResponse(ObjectFactory::serverRequest());
 
-        $expectedLastModify = gmdate(DATE_RFC7231, \Safe\filemtime($asset->getPath()));
+        $lastModifiedTimestamp = filemtime($asset->getPath());
+        self::assertNotFalse($lastModifiedTimestamp);
+        $expectedLastModify = gmdate(DATE_RFC7231, $lastModifiedTimestamp);
         self::assertSame(200, $response->getStatusCode());
         self::assertSame('binary', $response->getHeaderLine('Content-Transfer-Encoding'));
         self::assertSame('application/javascript', $response->getHeaderLine('Content-Type'));
         self::assertSame('9', $response->getHeaderLine('Content-Length'));
         self::assertSame($expectedLastModify, $response->getHeaderLine('Last-Modified'));
-        self::assertSame(\Safe\md5_file($asset->getPath()), $response->getHeaderLine('Etag'));
+        self::assertSame(md5_file($asset->getPath()), $response->getHeaderLine('Etag'));
         self::assertSame('public', $response->getHeaderLine('Cache-Control'));
         self::assertSame('/** js */', $response->getBody()->getContents());
+    }
+
+    public function testLastModifiedIsNowIfFileMTimeCouldNotBeRead(): void
+    {
+        $manager = new AssetManager($this->resolver, new StreamFactoryStub(), new ResponseFactory());
+        $asset = new FileAsset('non-existing');
+        $this->resolver->setResolvedAsset($asset);
+
+        $response = $manager->buildAssetResponse(ObjectFactory::serverRequest());
+
+        self::assertSame(gmdate(DATE_RFC7231, time()), $response->getHeaderLine('Last-Modified'));
+    }
+
+    public function testResponseHasNoEtagIfHashCouldNotBeCreated(): void
+    {
+        $manager = new AssetManager($this->resolver, new StreamFactoryStub(), new ResponseFactory());
+        $asset = new FileAsset('non-existing');
+        $this->resolver->setResolvedAsset($asset);
+
+        $response = $manager->buildAssetResponse(ObjectFactory::serverRequest());
+
+        self::assertFalse($response->hasHeader('Etag'));
     }
 
     public function testReturnsNotModifiedIfEtagMatches(): void
@@ -61,7 +90,7 @@ class AssetManagerTest extends TestCase
         $request = ObjectFactory::serverRequest(
             null,
             null,
-            ['HTTP_IF_NONE_MATCH' => \Safe\md5_file($asset->getPath())]
+            ['HTTP_IF_NONE_MATCH' => md5_file($asset->getPath())],
         );
 
         $response = $this->manager->buildAssetResponse($request);
@@ -73,7 +102,8 @@ class AssetManagerTest extends TestCase
     {
         $asset = new FileAsset(ObjectFactory::tmpFile('/** js */', 'test.js'));
         $this->resolver->setResolvedAsset($asset);
-        $filemtime = \Safe\filemtime($asset->getPath());
+        $filemtime = filemtime($asset->getPath());
+        assert($filemtime !== false);
         $wantedLastModify = gmdate(DATE_RFC7231, $filemtime);
         $request = ObjectFactory::serverRequest(
             null,
@@ -90,7 +120,8 @@ class AssetManagerTest extends TestCase
     {
         $asset = new FileAsset(ObjectFactory::tmpFile('/** js */', 'test.js'));
         $this->resolver->setResolvedAsset($asset);
-        $filemtime = \Safe\filemtime($asset->getPath());
+        $filemtime = filemtime($asset->getPath());
+        assert($filemtime !== false);
         $wantedLastModify = gmdate(DATE_RFC7231, $filemtime - 86400);
         $request = ObjectFactory::serverRequest(
             null,
@@ -107,7 +138,8 @@ class AssetManagerTest extends TestCase
     {
         $asset = new FileAsset(ObjectFactory::tmpFile('/** js */', 'test.js'));
         $this->resolver->setResolvedAsset($asset);
-        $filemtime = \Safe\filemtime($asset->getPath());
+        $filemtime = filemtime($asset->getPath());
+        assert($filemtime !== false);
         $wantedLastModify = gmdate(DATE_RFC7231, $filemtime + 86400);
         $request = ObjectFactory::serverRequest(
             null,

@@ -6,6 +6,7 @@ namespace Eventjet\AssetManager\Asset;
 
 use SplFileInfo;
 
+use function file_get_contents;
 use function strlen;
 use function strtolower;
 
@@ -33,9 +34,13 @@ final class FileAsset implements AssetInterface
     public function getContent(): string
     {
         if ($this->content === null) {
-            $this->content = \Safe\file_get_contents($this->getPath());
+            $fileContents = file_get_contents($this->getPath());
+
+            if ($fileContents !== false) {
+                $this->content = $fileContents;
+            }
         }
-        return $this->content;
+        return $this->content ?? '';
     }
 
     public function getContentLength(): string

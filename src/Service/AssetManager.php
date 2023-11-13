@@ -15,8 +15,11 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use RuntimeException;
 
+use function filemtime;
 use function gmdate;
 use function is_string;
+use function md5_file;
+use function time;
 
 use const DATE_RFC7231;
 
@@ -49,8 +52,15 @@ final class AssetManager
                 'Asset could not be resolved. Use "resolvesToAsset" before "buildAssetResponse".'
             );
         }
-        $lastModified = \Safe\filemtime($asset->getPath());
-        $etagFile = \Safe\md5_file($asset->getPath());
+        $lastModified = filemtime($asset->getPath());
+        if ($lastModified === false) {
+            $lastModified = time();
+        }
+
+        $etagFile = md5_file($asset->getPath());
+        if ($etagFile === false) {
+            $etagFile = null;
+        }
 
         $serverParams = $request->getServerParams();
         /** @var string|null $ifModifiedSince */
@@ -74,9 +84,10 @@ final class AssetManager
 
         $response = $this->responseFactory->createResponse()
             ->withAddedHeader('Last-Modified', gmdate(DATE_RFC7231, $lastModified))
-            ->withAddedHeader('Etag', $etagFile)
             ->withAddedHeader('Cache-Control', 'public');
-
+        if ($etagFile !== null) {
+            $response = $response->withAddedHeader('Etag', $etagFile);
+        }
         if ($etagHeader === $etagFile || $ifModifiedSince >= $lastModified) {
             return $response
                 ->withStatus(StatusCodeInterface::STATUS_NOT_MODIFIED, 'Not Modified');
