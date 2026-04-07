@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Eventjet\Test\Functional\AssetManager;
 
 use Eventjet\AssetManager\Module;
+use Override;
 use PHPUnit\Framework\TestCase;
 
-class ModuleTest extends TestCase
+final class ModuleTest extends TestCase
 {
     private Module $module;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 use function assert;
 
-class PathMappingResolverFactoryTest extends TestCase
+final class PathMappingResolverFactoryTest extends TestCase
 {
     public function testInvokeReturnsResolverWithExpectedConfiguration(): void
     {

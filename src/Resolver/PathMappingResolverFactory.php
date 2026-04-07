@@ -11,10 +11,9 @@ final class PathMappingResolverFactory
 {
     public function __invoke(ContainerInterface $container): PathMappingResolver
     {
-        return new PathMappingResolver(
-            $this->paths($container),
-            $container->get(AssetFactoryInterface::class)
-        );
+        /** @var AssetFactoryInterface $factory */
+        $factory = $container->get(AssetFactoryInterface::class);
+        return new PathMappingResolver($this->paths($container), $factory);
     }
 
     /**

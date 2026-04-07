@@ -12,7 +12,7 @@ use Eventjet\AssetManager\Resolver\PathMappingResolverFactory;
 use Eventjet\AssetManager\Resolver\ResolverInterface;
 use PHPUnit\Framework\TestCase;
 
-class ConfigProviderTest extends TestCase
+final class ConfigProviderTest extends TestCase
 {
     public function testConfig(): void
     {
@@ -25,9 +25,6 @@ class ConfigProviderTest extends TestCase
         $config = (new ConfigProvider())();
 
         self::assertArrayHasKey('dependencies', $config);
-        /**
-         * @var array{aliases?: array<string, string>, factories?: array<string, string>} $deps
-         */
         $deps = $config['dependencies'];
         self::assertArrayHasKey('aliases', $deps);
         self::assertArrayHasKey('factories', $deps);

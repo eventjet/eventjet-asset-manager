@@ -29,7 +29,9 @@ final class ObjectFactory
     {
         $file = tmpfile();
         assert($file !== false);
-        return stream_get_meta_data($file)['uri'];
+        $data = stream_get_meta_data($file);
+        assert(isset($data['uri']));
+        return $data['uri'];
     }
 
     public static function pathToTmpFiles(): string
@@ -53,7 +55,7 @@ final class ObjectFactory
     public static function serverRequest(
         ?string $method = null,
         ?string $uri = null,
-        ?array $serverParams = null
+        ?array $serverParams = null,
     ): ServerRequestInterface {
         return (new ServerRequestFactory())->createServerRequest($method ?? 'GET', $uri ?? '/', $serverParams ?? []);
     }
@@ -68,13 +70,15 @@ final class ObjectFactory
         return bin2hex(random_bytes(5));
     }
 
-    public static function requestHandlerSpy(bool &$called): RequestHandlerInterface
-    {
+    public static function requestHandlerSpy(
+        bool &$called,
+        ResponseInterface|null $response = null,
+    ): RequestHandlerInterface {
         return new CallbackRequestHandler(
-            function () use (&$called): ResponseInterface {
+            function () use (&$called, $response): ResponseInterface {
                 $called = true;
-                return self::response();
-            }
+                return $response ?? self::response();
+            },
         );
     }
 }
