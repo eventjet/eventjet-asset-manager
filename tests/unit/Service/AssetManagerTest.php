@@ -12,6 +12,7 @@ use Eventjet\Test\Unit\AssetManager\TestDouble\StreamFactoryStub;
 use Fig\Http\Message\StatusCodeInterface;
 use Laminas\Diactoros\ResponseFactory;
 use Laminas\Diactoros\StreamFactory;
+use Override;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
@@ -23,7 +24,7 @@ use function time;
 
 use const DATE_RFC7231;
 
-class AssetManagerTest extends TestCase
+final class AssetManagerTest extends TestCase
 {
     private ResolverStub $resolver;
     private AssetManager $manager;
@@ -167,6 +168,7 @@ class AssetManagerTest extends TestCase
         self::assertSame(StatusCodeInterface::STATUS_OK, $response->getStatusCode());
     }
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

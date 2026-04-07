@@ -6,6 +6,7 @@ namespace Eventjet\AssetManager\Resolver;
 
 use Eventjet\AssetManager\Asset\AssetFactoryInterface;
 use Eventjet\AssetManager\Asset\AssetInterface;
+use Override;
 
 use function file_exists;
 
@@ -24,6 +25,7 @@ final class PathMappingResolver implements ResolverInterface
         $this->factory = $factory;
     }
 
+    #[Override]
     public function resolve(string $path): ?AssetInterface
     {
         if ($path === '/') {

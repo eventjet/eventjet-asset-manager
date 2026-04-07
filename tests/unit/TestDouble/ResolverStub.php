@@ -6,11 +6,13 @@ namespace Eventjet\Test\Unit\AssetManager\TestDouble;
 
 use Eventjet\AssetManager\Asset\AssetInterface;
 use Eventjet\AssetManager\Resolver\ResolverInterface;
+use Override;
 
 final class ResolverStub implements ResolverInterface
 {
-    private ?AssetInterface $asset;
+    private AssetInterface|null $asset = null;
 
+    #[Override]
     public function resolve(string $path): ?AssetInterface
     {
         return $this->asset;

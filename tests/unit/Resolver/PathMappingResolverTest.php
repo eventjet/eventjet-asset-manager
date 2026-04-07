@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 use function assert;
 
-class PathMappingResolverTest extends TestCase
+final class PathMappingResolverTest extends TestCase
 {
     public function testResolveReturnsNullWhenResolvingRoot(): void
     {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Eventjet\AssetManager\Asset;
 
+use Override;
 use SplFileInfo;
 
 use function file_get_contents;
@@ -21,16 +22,19 @@ final class FileAsset implements AssetInterface
         $this->content = null;
     }
 
+    #[Override]
     public function getPath(): string
     {
         return $this->fullPath;
     }
 
+    #[Override]
     public function getMimeType(): string
     {
         return $this->findMimeType($this->getExtension()) ?? 'application/octet-stream';
     }
 
+    #[Override]
     public function getContent(): string
     {
         if ($this->content === null) {
@@ -43,6 +47,7 @@ final class FileAsset implements AssetInterface
         return $this->content ?? '';
     }
 
+    #[Override]
     public function getContentLength(): string
     {
         return (string)strlen($this->getContent());

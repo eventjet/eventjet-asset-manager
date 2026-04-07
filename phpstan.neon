@@ -1,5 +1,6 @@
 parameters:
     level: max
+    rememberPossiblyImpureFunctionValues: false
     paths:
         - src/
         - tests/

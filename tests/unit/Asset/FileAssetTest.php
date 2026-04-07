@@ -8,7 +8,7 @@ use Eventjet\AssetManager\Asset\FileAsset;
 use Eventjet\Test\Unit\AssetManager\ObjectFactory;
 use PHPUnit\Framework\TestCase;
 
-class FileAssetTest extends TestCase
+final class FileAssetTest extends TestCase
 {
     public function testGetPath(): void
     {
@@ -27,12 +27,6 @@ class FileAssetTest extends TestCase
         $filename = $this->createTmpFile('foobar');
 
         self::assertSame('6', (new FileAsset($filename))->getContentLength());
-    }
-
-    public function testGetContentLengthForMbString(): void
-    {
-        self::markTestIncomplete('We need an example for an mb_ string.');
-        // Then replace "strlen($this->getContent())" with "mb_strlen($this->getContent(), '8bit')"
     }
 
     public function testGetMimeTypeForJs(): void
@@ -73,7 +67,7 @@ class FileAssetTest extends TestCase
     private function createTmpFile(?string $content = null, ?string $ending = null): string
     {
         $filename = ObjectFactory::randomFileName();
-        $filename = $filename . $ending;
+        $filename = $filename . (string)$ending;
         return ObjectFactory::tmpFile($content, $filename);
     }
 }

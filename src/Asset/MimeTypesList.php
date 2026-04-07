@@ -14,7 +14,7 @@ namespace Eventjet\AssetManager\Asset;
  *
  * @internal
  */
-class MimeTypesList
+final readonly class MimeTypesList
 {
     /**
      * Version of the mime db package.
@@ -23,7 +23,7 @@ class MimeTypesList
      *
      * @var string
      */
-    public const MIME_DB_VERSION = '1.43.0';
+    public const string MIME_DB_VERSION = '1.43.0';
 
     /**
      * A map of file extensions and their mime types.
@@ -34,7 +34,7 @@ class MimeTypesList
      * @see http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
      * @see http://hg.nginx.org/nginx/file/tip/conf/mime.types
      */
-    public const MIMES = [
+    public const array MIMES = [
         'ez' => [
             'application/andrew-inset',
         ],
