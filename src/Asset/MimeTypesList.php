@@ -115,8 +115,8 @@ final readonly class MimeTypesList
             'application/dash+xml',
         ],
         'mpp' => [
-            'application/dash-patch+xml',
             'application/vnd.ms-project',
+            'application/dash-patch+xml',
         ],
         'davmount' => [
             'application/davmount+xml',
@@ -295,12 +295,12 @@ final readonly class MimeTypesList
             'application/mp21',
         ],
         'mp4' => [
-            'application/mp4',
             'video/mp4',
+            'application/mp4',
         ],
         'mpg4' => [
-            'application/mp4',
             'video/mp4',
+            'application/mp4',
         ],
         'mp4s' => [
             'application/mp4',
@@ -2535,8 +2535,8 @@ final readonly class MimeTypesList
             'text/xml',
         ],
         'xsl' => [
-            'application/xml',
             'application/xslt+xml',
+            'application/xml',
         ],
         'xsd' => [
             'application/xml',
@@ -3176,8 +3176,8 @@ final readonly class MimeTypesList
             'model/vnd.gtw',
         ],
         'mts' => [
-            'model/vnd.mts',
             'video/mp2t',
+            'model/vnd.mts',
         ],
         'ogex' => [
             'model/vnd.opengex',
