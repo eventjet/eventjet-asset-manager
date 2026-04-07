@@ -20,7 +20,7 @@ use function assert;
 use function error_reporting;
 use function filemtime;
 use function gmdate;
-use function md5_file;
+use function sprintf;
 use function time;
 
 use const DATE_RFC7231;
@@ -58,8 +58,8 @@ final class AssetManagerTest extends TestCase
         self::assertSame('application/javascript', $response->getHeaderLine('Content-Type'));
         self::assertSame('9', $response->getHeaderLine('Content-Length'));
         self::assertSame($expectedLastModify, $response->getHeaderLine('Last-Modified'));
-        self::assertSame(md5_file($asset->getPath()), $response->getHeaderLine('Etag'));
-        self::assertSame('public', $response->getHeaderLine('Cache-Control'));
+        self::assertSame(sprintf('%x-%x', $lastModifiedTimestamp, '9'), $response->getHeaderLine('Etag'));
+        self::assertSame('public, max-age=86400', $response->getHeaderLine('Cache-Control'));
         self::assertSame('/** js */', $response->getBody()->getContents());
     }
 
@@ -92,11 +92,13 @@ final class AssetManagerTest extends TestCase
     public function testReturnsNotModifiedIfEtagMatches(): void
     {
         $asset = new FileAsset(ObjectFactory::tmpFile('/** js */', 'test.js'));
+        $lastModifiedTimestamp = filemtime($asset->getPath());
+        assert($lastModifiedTimestamp !== false);
         $this->resolver->setResolvedAsset($asset);
         $request = ObjectFactory::serverRequest(
             null,
             null,
-            ['HTTP_IF_NONE_MATCH' => md5_file($asset->getPath())],
+            ['HTTP_IF_NONE_MATCH' => sprintf('%x-%x', $lastModifiedTimestamp, '9')],
         );
 
         $response = $this->manager->buildAssetResponse($request);
