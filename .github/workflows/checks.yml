@@ -69,13 +69,6 @@ jobs:
       - name: PHPUnit
         run: vendor/bin/phpunit --coverage-clover=coverage.xml --stop-on-failure
 
-      - name: Save Infection result
-        uses: actions/upload-artifact@v6
-        if: always()
-        with:
-          name: infection-log-${{ matrix.php }}.txt
-          path: infection-log.txt
-
       - name: Monitor coverage
         if: github.event_name == 'pull_request'
         uses: slavcodev/coverage-monitor-action@v1
