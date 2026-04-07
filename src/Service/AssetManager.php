@@ -29,7 +29,7 @@ final readonly class AssetManager
         private ResolverInterface $resolver,
         private StreamFactoryInterface $streamFactory,
         private ResponseFactoryInterface $responseFactory,
-        private string $maxAge = '86400',
+        private int $maxAge = 86400,
     ) {
     }
 
@@ -83,7 +83,7 @@ final readonly class AssetManager
 
         $response = $this->responseFactory->createResponse()
             ->withAddedHeader('Last-Modified', gmdate(DATE_RFC7231, $lastModified))
-            ->withAddedHeader('Cache-Control', sprintf('public, max-age=%s', $this->maxAge));
+            ->withAddedHeader('Cache-Control', sprintf('public, max-age=%d', $this->maxAge));
         if ($etagFile !== null) {
             $response = $response->withAddedHeader('Etag', $etagFile);
         }
