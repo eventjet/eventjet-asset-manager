@@ -39,7 +39,7 @@ final class ObjectFactory
         return (new SplFileInfo(self::tmpFileName()))->getPath() . DIRECTORY_SEPARATOR;
     }
 
-    public static function tmpFile(?string $content = null, ?string $filename = null): string
+    public static function tmpFile(string|null $content = null, string|null $filename = null): string
     {
         $tmpFile = self::tmpFileName();
         if ($filename !== null) {
@@ -53,14 +53,14 @@ final class ObjectFactory
      * @param array<string, mixed> $serverParams
      */
     public static function serverRequest(
-        ?string $method = null,
-        ?string $uri = null,
-        ?array $serverParams = null,
+        string|null $method = null,
+        string|null $uri = null,
+        array|null $serverParams = null,
     ): ServerRequestInterface {
         return (new ServerRequestFactory())->createServerRequest($method ?? 'GET', $uri ?? '/', $serverParams ?? []);
     }
 
-    public static function response(?int $code = null, ?string $reasonPhrase = null): ResponseInterface
+    public static function response(int|null $code = null, string|null $reasonPhrase = null): ResponseInterface
     {
         return (new ResponseFactory())->createResponse($code ?? 200, $reasonPhrase ?? '');
     }
@@ -75,7 +75,7 @@ final class ObjectFactory
         ResponseInterface|null $response = null,
     ): RequestHandlerInterface {
         return new CallbackRequestHandler(
-            function () use (&$called, $response): ResponseInterface {
+            static function () use (&$called, $response): ResponseInterface {
                 $called = true;
                 return $response ?? self::response();
             },

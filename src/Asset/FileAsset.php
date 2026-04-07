@@ -13,7 +13,7 @@ use function strtolower;
 
 final class FileAsset implements AssetInterface
 {
-    private ?string $content;
+    private string|null $content;
     private string $fullPath;
 
     public function __construct(string $fullPath)
@@ -58,7 +58,7 @@ final class FileAsset implements AssetInterface
         return (new SplFileInfo($this->getPath()))->getExtension();
     }
 
-    private function findMimeType(string $extension): ?string
+    private function findMimeType(string $extension): string|null
     {
         $extension = strtolower($extension);
         return MimeTypesList::MIMES[$extension][0] ?? null;

@@ -64,7 +64,7 @@ final class FileAssetTest extends TestCase
         self::assertSame('text/css', (new FileAsset($filename))->getMimeType());
     }
 
-    private function createTmpFile(?string $content = null, ?string $ending = null): string
+    private function createTmpFile(string|null $content = null, string|null $ending = null): string
     {
         $filename = ObjectFactory::randomFileName();
         $filename = $filename . (string)$ending;

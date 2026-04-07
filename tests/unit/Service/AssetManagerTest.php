@@ -36,7 +36,7 @@ final class AssetManagerTest extends TestCase
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(
-            'Asset could not be resolved. Use "resolvesToAsset" before "buildAssetResponse".'
+            'Asset could not be resolved. Use "resolvesToAsset" before "buildAssetResponse".',
         );
 
         $this->manager->buildAssetResponse(ObjectFactory::serverRequest());
@@ -114,7 +114,7 @@ final class AssetManagerTest extends TestCase
         $request = ObjectFactory::serverRequest(
             null,
             null,
-            ['HTTP_IF_MODIFIED_SINCE' => $wantedLastModify]
+            ['HTTP_IF_MODIFIED_SINCE' => $wantedLastModify],
         );
 
         $response = $this->manager->buildAssetResponse($request);
@@ -132,7 +132,7 @@ final class AssetManagerTest extends TestCase
         $request = ObjectFactory::serverRequest(
             null,
             null,
-            ['HTTP_IF_MODIFIED_SINCE' => $wantedLastModify]
+            ['HTTP_IF_MODIFIED_SINCE' => $wantedLastModify],
         );
 
         $response = $this->manager->buildAssetResponse($request);
@@ -150,7 +150,7 @@ final class AssetManagerTest extends TestCase
         $request = ObjectFactory::serverRequest(
             null,
             null,
-            ['HTTP_IF_MODIFIED_SINCE' => $wantedLastModify]
+            ['HTTP_IF_MODIFIED_SINCE' => $wantedLastModify],
         );
 
         $response = $this->manager->buildAssetResponse($request);
@@ -165,7 +165,7 @@ final class AssetManagerTest extends TestCase
         $request = ObjectFactory::serverRequest(
             null,
             null,
-            ['HTTP_IF_MODIFIED_SINCE' => 'foo']
+            ['HTTP_IF_MODIFIED_SINCE' => 'foo'],
         );
 
         $response = $this->manager->buildAssetResponse($request);

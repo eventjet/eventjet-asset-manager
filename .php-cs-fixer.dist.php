@@ -4,4 +4,4 @@ declare(strict_types=1);
 
 use Eventjet\CodingStandard\PhpCsFixer\Config;
 
-return Config::basic();
+return Config::strict();
