@@ -17,6 +17,7 @@ use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
 use function assert;
+use function error_reporting;
 use function filemtime;
 use function gmdate;
 use function md5_file;
@@ -64,6 +65,7 @@ final class AssetManagerTest extends TestCase
 
     public function testLastModifiedIsNowIfFileMTimeCouldNotBeRead(): void
     {
+        $oldErrorReporting = error_reporting(0);
         $manager = new AssetManager($this->resolver, new StreamFactoryStub(), new ResponseFactory());
         $asset = new FileAsset('non-existing');
         $this->resolver->setResolvedAsset($asset);
@@ -71,10 +73,12 @@ final class AssetManagerTest extends TestCase
         $response = $manager->buildAssetResponse(ObjectFactory::serverRequest());
 
         self::assertSame(gmdate(DATE_RFC7231, time()), $response->getHeaderLine('Last-Modified'));
+        error_reporting($oldErrorReporting);
     }
 
     public function testResponseHasNoEtagIfHashCouldNotBeCreated(): void
     {
+        $oldErrorReporting = error_reporting(0);
         $manager = new AssetManager($this->resolver, new StreamFactoryStub(), new ResponseFactory());
         $asset = new FileAsset('non-existing');
         $this->resolver->setResolvedAsset($asset);
@@ -82,6 +86,7 @@ final class AssetManagerTest extends TestCase
         $response = $manager->buildAssetResponse(ObjectFactory::serverRequest());
 
         self::assertFalse($response->hasHeader('Etag'));
+        error_reporting($oldErrorReporting);
     }
 
     public function testReturnsNotModifiedIfEtagMatches(): void
