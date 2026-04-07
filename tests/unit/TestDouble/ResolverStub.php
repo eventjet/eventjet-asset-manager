@@ -13,12 +13,12 @@ final class ResolverStub implements ResolverInterface
     private AssetInterface|null $asset = null;
 
     #[Override]
-    public function resolve(string $path): ?AssetInterface
+    public function resolve(string $path): AssetInterface|null
     {
         return $this->asset;
     }
 
-    public function setResolvedAsset(?AssetInterface $asset = null): void
+    public function setResolvedAsset(AssetInterface|null $asset = null): void
     {
         $this->asset = $asset;
     }

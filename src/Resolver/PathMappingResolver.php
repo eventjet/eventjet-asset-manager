@@ -26,7 +26,7 @@ final class PathMappingResolver implements ResolverInterface
     }
 
     #[Override]
-    public function resolve(string $path): ?AssetInterface
+    public function resolve(string $path): AssetInterface|null
     {
         if ($path === '/') {
             return null;

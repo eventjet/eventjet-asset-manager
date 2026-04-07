@@ -8,5 +8,5 @@ use Eventjet\AssetManager\Asset\AssetInterface;
 
 interface ResolverInterface
 {
-    public function resolve(string $path): ?AssetInterface;
+    public function resolve(string $path): AssetInterface|null;
 }

@@ -32,7 +32,7 @@ final class AssetManager
     public function __construct(
         ResolverInterface $resolver,
         StreamFactoryInterface $streamFactory,
-        ResponseFactoryInterface $responseFactory
+        ResponseFactoryInterface $responseFactory,
     ) {
         $this->resolver = $resolver;
         $this->streamFactory = $streamFactory;
@@ -49,7 +49,7 @@ final class AssetManager
         $asset = $this->resolver->resolve($request->getUri()->getPath());
         if ($asset === null) {
             throw new RuntimeException(
-                'Asset could not be resolved. Use "resolvesToAsset" before "buildAssetResponse".'
+                'Asset could not be resolved. Use "resolvesToAsset" before "buildAssetResponse".',
             );
         }
         $lastModified = filemtime($asset->getPath());
@@ -72,7 +72,7 @@ final class AssetManager
             $modifiedDate = DateTimeImmutable::createFromFormat(
                 DATE_RFC7231,
                 $ifModifiedSince,
-                new DateTimeZone('UTC')
+                new DateTimeZone('UTC'),
             );
 
             if ($modifiedDate instanceof DateTimeImmutable) {

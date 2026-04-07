@@ -12,14 +12,6 @@ final class ModuleTest extends TestCase
 {
     private Module $module;
 
-    #[Override]
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->module = new Module();
-    }
-
     public function testDependencyKeyIsRenamedToServiceManager(): void
     {
         /**
@@ -38,5 +30,13 @@ final class ModuleTest extends TestCase
         $serviceManager = $config['service_manager'];
         self::assertArrayHasKey('aliases', $serviceManager);
         self::assertArrayHasKey('factories', $serviceManager);
+    }
+
+    #[Override]
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->module = new Module();
     }
 }
