@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Eventjet\AssetManager\Asset;
 
 /**
- * Copied from https://github.com/narrowspark/mimetypes
+ * Generated from {@see https://cdn.jsdelivr.net/gh/jshttp/mime-db@1.54.0/db.json}
+ * on Mar 18, 2025, 3:07 PM GMT
  *
- * Code subject to the MIT license (https://github.com/narrowspark/mimetypes/blob/master/LICENSE).
- * Copyright (c) Narrowspark
+ * The source code is available at {@see https://github.com/jshttp/mime-db}
  *
- * We have to use this workaround for as long as narrowspark/mimetypes doesn't support PHP 8
+ * Contains data derived from the mime-db project (MIT license).
  *
+ * @generated
  * @internal
  */
 final readonly class MimeTypesList
@@ -19,16 +20,12 @@ final readonly class MimeTypesList
     /**
      * Version of the mime db package.
      *
-     * @see https://npmjs.org/package/mime-db
-     *
-     * @var string
+     * @see https://github.com/jshttp/mime-db/releases
      */
-    public const string MIME_DB_VERSION = '1.43.0';
+    public const string MIME_DB_VERSION = '1.54.0';
 
     /**
      * A map of file extensions and their mime types.
-     *
-     * Last generated: Mon, 06 Jan 2020 13:24:29 GMT
      *
      * @see http://www.iana.org/assignments/media-types/media-types.xhtml
      * @see http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
@@ -38,8 +35,17 @@ final readonly class MimeTypesList
         'ez' => [
             'application/andrew-inset',
         ],
+        'appinstaller' => [
+            'application/appinstaller',
+        ],
         'aw' => [
             'application/applixware',
+        ],
+        'appx' => [
+            'application/appx',
+        ],
+        'appxbundle' => [
+            'application/appxbundle',
         ],
         'atom' => [
             'application/atom+xml',
@@ -61,6 +67,12 @@ final readonly class MimeTypesList
         ],
         'rsat' => [
             'application/atsc-rsat+xml',
+        ],
+        'aml' => [
+            'application/automationml-aml+xml',
+        ],
+        'amlx' => [
+            'application/automationml-amlx+zip',
         ],
         'bdoc' => [
             'application/bdoc',
@@ -90,11 +102,21 @@ final readonly class MimeTypesList
         'cdmiq' => [
             'application/cdmi-queue',
         ],
+        'cpl' => [
+            'application/cpl+xml',
+        ],
         'cu' => [
             'application/cu-seeme',
         ],
+        'cwl' => [
+            'application/cwl',
+        ],
         'mpd' => [
             'application/dash+xml',
+        ],
+        'mpp' => [
+            'application/vnd.ms-project',
+            'application/dash-patch+xml',
         ],
         'davmount' => [
             'application/davmount+xml',
@@ -111,9 +133,6 @@ final readonly class MimeTypesList
         'ecma' => [
             'application/ecmascript',
         ],
-        'es' => [
-            'application/ecmascript',
-        ],
         'emma' => [
             'application/emma+xml',
         ],
@@ -125,6 +144,13 @@ final readonly class MimeTypesList
         ],
         'exi' => [
             'application/exi',
+        ],
+        'exp' => [
+            'application/express',
+        ],
+        'fdf' => [
+            'application/fdf',
+            'application/vnd.fdf',
         ],
         'fdt' => [
             'application/fdt+xml',
@@ -182,9 +208,7 @@ final readonly class MimeTypesList
         ],
         'js' => [
             'application/javascript',
-        ],
-        'mjs' => [
-            'application/javascript',
+            'text/javascript',
         ],
         'json' => [
             'application/json',
@@ -240,6 +264,9 @@ final readonly class MimeTypesList
         'mbox' => [
             'application/mbox',
         ],
+        'mpf' => [
+            'application/media-policy-dataset+xml',
+        ],
         'mscml' => [
             'application/mediaservercontrol+xml',
         ],
@@ -267,16 +294,25 @@ final readonly class MimeTypesList
         'mp21' => [
             'application/mp21',
         ],
+        'mp4' => [
+            'video/mp4',
+            'application/mp4',
+        ],
+        'mpg4' => [
+            'video/mp4',
+            'application/mp4',
+        ],
         'mp4s' => [
             'application/mp4',
         ],
         'm4p' => [
             'application/mp4',
         ],
-        'xdf' => [
-            'application/mrb-consumer+xml',
-            'application/mrb-publish+xml',
-            'application/xcap-diff+xml',
+        'msix' => [
+            'application/msix',
+        ],
+        'msixbundle' => [
+            'application/msixbundle',
         ],
         'doc' => [
             'application/msword',
@@ -292,6 +328,9 @@ final readonly class MimeTypesList
         ],
         'nt' => [
             'application/n-triples',
+        ],
+        'cjs' => [
+            'application/node',
         ],
         'bin' => [
             'application/octet-stream',
@@ -398,7 +437,6 @@ final readonly class MimeTypesList
         ],
         'xer' => [
             'application/patch-ops-error+xml',
-            'application/xcap-error+xml',
         ],
         'pdf' => [
             'application/pdf',
@@ -407,6 +445,7 @@ final readonly class MimeTypesList
             'application/pgp-encrypted',
         ],
         'asc' => [
+            'application/pgp-keys',
             'application/pgp-signature',
         ],
         'sig' => [
@@ -463,6 +502,9 @@ final readonly class MimeTypesList
         ],
         'cww' => [
             'application/prs.cww',
+        ],
+        'xsf' => [
+            'application/prs.xsf+xml',
         ],
         'pskcxml' => [
             'application/pskc+xml',
@@ -570,6 +612,10 @@ final readonly class MimeTypesList
         'srx' => [
             'application/sparql-results+xml',
         ],
+        'sql' => [
+            'application/sql',
+            'application/x-sql',
+        ],
         'gram' => [
             'application/srgs',
         ],
@@ -603,11 +649,20 @@ final readonly class MimeTypesList
         'toml' => [
             'application/toml',
         ],
+        'trig' => [
+            'application/trig',
+        ],
         'ttml' => [
             'application/ttml+xml',
         ],
+        'ubj' => [
+            'application/ubjson',
+        ],
         'rsheet' => [
             'application/urc-ressheet+xml',
+        ],
+        'td' => [
+            'application/urc-targetdesc+xml',
         ],
         '1km' => [
             'application/vnd.1000minds.decision-model+xml',
@@ -659,6 +714,10 @@ final readonly class MimeTypesList
         ],
         'xfdf' => [
             'application/vnd.adobe.xfdf',
+            'application/xfdf',
+        ],
+        'age' => [
+            'application/vnd.age',
         ],
         'ahead' => [
             'application/vnd.ahead.space',
@@ -693,17 +752,20 @@ final readonly class MimeTypesList
         'mpkg' => [
             'application/vnd.apple.installer+xml',
         ],
-        'keynote' => [
+        'key' => [
             'application/vnd.apple.keynote',
+            'application/x-iwork-keynote-sffkey',
         ],
         'm3u8' => [
             'application/vnd.apple.mpegurl',
         ],
         'numbers' => [
             'application/vnd.apple.numbers',
+            'application/x-iwork-numbers-sffnumbers',
         ],
         'pages' => [
             'application/vnd.apple.pages',
+            'application/x-iwork-pages-sffpages',
         ],
         'pkpass' => [
             'application/vnd.apple.pkpass',
@@ -813,6 +875,9 @@ final readonly class MimeTypesList
         'rdz' => [
             'application/vnd.data-vision.rdz',
         ],
+        'dbf' => [
+            'application/vnd.dbf',
+        ],
         'uvf' => [
             'application/vnd.dece.data',
         ],
@@ -903,9 +968,6 @@ final readonly class MimeTypesList
         'ez3' => [
             'application/vnd.ezpix-package',
         ],
-        'fdf' => [
-            'application/vnd.fdf',
-        ],
         'mseed' => [
             'application/vnd.fdsn.mseed',
         ],
@@ -975,6 +1037,9 @@ final readonly class MimeTypesList
         'ggb' => [
             'application/vnd.geogebra.file',
         ],
+        'ggs' => [
+            'application/vnd.geogebra.slides',
+        ],
         'ggt' => [
             'application/vnd.geogebra.tool',
         ],
@@ -1010,6 +1075,9 @@ final readonly class MimeTypesList
         ],
         'kmz' => [
             'application/vnd.google-earth.kmz',
+        ],
+        'xdcf' => [
+            'application/vnd.gov.sk.xmldatacontainer+xml',
         ],
         'gqf' => [
             'application/vnd.grafeq',
@@ -1218,7 +1286,7 @@ final readonly class MimeTypesList
         'lbe' => [
             'application/vnd.llamagraphics.life-balance.exchange+xml',
         ],
-        123 => [
+        '123' => [
             'application/vnd.lotus-1-2-3',
         ],
         'apr' => [
@@ -1242,6 +1310,9 @@ final readonly class MimeTypesList
         ],
         'portpkg' => [
             'application/vnd.macports.portpkg',
+        ],
+        'mvt' => [
+            'application/vnd.mapbox-vector-tile',
         ],
         'mcd' => [
             'application/vnd.mcd',
@@ -1382,9 +1453,6 @@ final readonly class MimeTypesList
         'potm' => [
             'application/vnd.ms-powerpoint.template.macroenabled.12',
         ],
-        'mpp' => [
-            'application/vnd.ms-project',
-        ],
         'mpt' => [
             'application/vnd.ms-project',
         ],
@@ -1423,6 +1491,9 @@ final readonly class MimeTypesList
         ],
         'taglet' => [
             'application/vnd.mynfc',
+        ],
+        'bdo' => [
+            'application/vnd.nato.bindingdataobject+xml',
         ],
         'nlu' => [
             'application/vnd.neurolanguage.nlu',
@@ -1605,6 +1676,9 @@ final readonly class MimeTypesList
         'ptid' => [
             'application/vnd.pvi.ptid1',
         ],
+        'xhtm' => [
+            'application/vnd.pwg-xhtml-print+xml',
+        ],
         'qxd' => [
             'application/vnd.quark.quarkxpress',
         ],
@@ -1622,6 +1696,10 @@ final readonly class MimeTypesList
         ],
         'qxb' => [
             'application/vnd.quark.quarkxpress',
+        ],
+        'rar' => [
+            'application/vnd.rar',
+            'application/x-rar-compressed',
         ],
         'bed' => [
             'application/vnd.realvnc.bed',
@@ -1830,6 +1908,9 @@ final readonly class MimeTypesList
         'uoml' => [
             'application/vnd.uoml+xml',
         ],
+        'uo' => [
+            'application/vnd.uoml+xml',
+        ],
         'vcx' => [
             'application/vnd.vcx',
         ],
@@ -1919,6 +2000,9 @@ final readonly class MimeTypesList
         ],
         'wasm' => [
             'application/wasm',
+        ],
+        'wif' => [
+            'application/watcherinfo+xml',
         ],
         'wgt' => [
             'application/widget',
@@ -2166,6 +2250,7 @@ final readonly class MimeTypesList
         'prc' => [
             'application/x-mobipocket-ebook',
             'application/x-pilot',
+            'model/prc',
         ],
         'mobi' => [
             'application/x-mobipocket-ebook',
@@ -2272,9 +2357,6 @@ final readonly class MimeTypesList
         'p7r' => [
             'application/x-pkcs7-certreqresp',
         ],
-        'rar' => [
-            'application/x-rar-compressed',
-        ],
         'rpm' => [
             'application/x-redhat-package-manager',
         ],
@@ -2295,9 +2377,6 @@ final readonly class MimeTypesList
         ],
         'xap' => [
             'application/x-silverlight-app',
-        ],
-        'sql' => [
-            'application/x-sql',
         ],
         'sit' => [
             'application/x-stuffit',
@@ -2343,6 +2422,7 @@ final readonly class MimeTypesList
         ],
         'obj' => [
             'application/x-tgif',
+            'model/obj',
         ],
         'ustar' => [
             'application/x-ustar',
@@ -2432,6 +2512,9 @@ final readonly class MimeTypesList
         'xca' => [
             'application/xcap-caps+xml',
         ],
+        'xdf' => [
+            'application/xcap-diff+xml',
+        ],
         'xel' => [
             'application/xcap-el+xml',
         ],
@@ -2452,6 +2535,7 @@ final readonly class MimeTypesList
             'text/xml',
         ],
         'xsl' => [
+            'application/xslt+xml',
             'application/xml',
         ],
         'xsd' => [
@@ -2500,8 +2584,18 @@ final readonly class MimeTypesList
             'audio/3gpp',
             'video/3gpp',
         ],
+        'adts' => [
+            'audio/aac',
+        ],
+        'aac' => [
+            'audio/aac',
+            'audio/x-aac',
+        ],
         'adp' => [
             'audio/adpcm',
+        ],
+        'amr' => [
+            'audio/amr',
         ],
         'au' => [
             'audio/basic',
@@ -2559,6 +2653,9 @@ final readonly class MimeTypesList
         'spx' => [
             'audio/ogg',
         ],
+        'opus' => [
+            'audio/ogg',
+        ],
         's3m' => [
             'audio/s3m',
         ],
@@ -2608,9 +2705,6 @@ final readonly class MimeTypesList
         ],
         'weba' => [
             'audio/webm',
-        ],
-        'aac' => [
-            'audio/x-aac',
         ],
         'aif' => [
             'audio/x-aiff',
@@ -2691,15 +2785,30 @@ final readonly class MimeTypesList
         'apng' => [
             'image/apng',
         ],
+        'avci' => [
+            'image/avci',
+        ],
+        'avcs' => [
+            'image/avcs',
+        ],
+        'avif' => [
+            'image/avif',
+        ],
         'bmp' => [
             'image/bmp',
             'image/x-ms-bmp',
+        ],
+        'dib' => [
+            'image/bmp',
         ],
         'cgm' => [
             'image/cgm',
         ],
         'drle' => [
             'image/dicom-rle',
+        ],
+        'dpx' => [
+            'image/dpx',
         ],
         'fits' => [
             'image/fits',
@@ -2759,11 +2868,18 @@ final readonly class MimeTypesList
             'image/jpm',
             'video/jpm',
         ],
+        'jpgm' => [
+            'image/jpm',
+            'video/jpm',
+        ],
         'jpx' => [
             'image/jpx',
         ],
         'jpf' => [
             'image/jpx',
+        ],
+        'jxl' => [
+            'image/jxl',
         ],
         'jxr' => [
             'image/jxr',
@@ -2789,10 +2905,16 @@ final readonly class MimeTypesList
         'ktx' => [
             'image/ktx',
         ],
+        'ktx2' => [
+            'image/ktx2',
+        ],
         'png' => [
             'image/png',
         ],
         'btif' => [
+            'image/prs.btif',
+        ],
+        'btf' => [
             'image/prs.btif',
         ],
         'pti' => [
@@ -2883,6 +3005,9 @@ final readonly class MimeTypesList
         ],
         'npx' => [
             'image/vnd.net-fpx',
+        ],
+        'b16' => [
+            'image/vnd.pco.b16',
         ],
         'tap' => [
             'image/vnd.tencent.tap',
@@ -3005,6 +3130,9 @@ final readonly class MimeTypesList
         'iges' => [
             'model/iges',
         ],
+        'jt' => [
+            'model/jt',
+        ],
         'msh' => [
             'model/mesh',
         ],
@@ -3013,6 +3141,27 @@ final readonly class MimeTypesList
         ],
         'silo' => [
             'model/mesh',
+        ],
+        'mtl' => [
+            'model/mtl',
+        ],
+        'stpx' => [
+            'model/step+xml',
+        ],
+        'stpz' => [
+            'model/step+zip',
+        ],
+        'stpxz' => [
+            'model/step-xml+zip',
+        ],
+        'u3d' => [
+            'model/u3d',
+        ],
+        'bary' => [
+            'model/vnd.bary',
+        ],
+        'cld' => [
+            'model/vnd.cld',
         ],
         'dae' => [
             'model/vnd.collada+xml',
@@ -3027,6 +3176,7 @@ final readonly class MimeTypesList
             'model/vnd.gtw',
         ],
         'mts' => [
+            'video/mp2t',
             'model/vnd.mts',
         ],
         'ogex' => [
@@ -3037,6 +3187,18 @@ final readonly class MimeTypesList
         ],
         'x_t' => [
             'model/vnd.parasolid.transmit.text',
+        ],
+        'pyo' => [
+            'model/vnd.pytha.pyox',
+        ],
+        'pyox' => [
+            'model/vnd.pytha.pyox',
+        ],
+        'vds' => [
+            'model/vnd.sap.vds',
+        ],
+        'usda' => [
+            'model/vnd.usda',
         ],
         'usdz' => [
             'model/vnd.usdz+zip',
@@ -3109,16 +3271,19 @@ final readonly class MimeTypesList
         'jade' => [
             'text/jade',
         ],
+        'mjs' => [
+            'text/javascript',
+        ],
         'jsx' => [
             'text/jsx',
         ],
         'less' => [
             'text/less',
         ],
-        'markdown' => [
+        'md' => [
             'text/markdown',
         ],
-        'md' => [
+        'markdown' => [
             'text/markdown',
         ],
         'mml' => [
@@ -3175,6 +3340,9 @@ final readonly class MimeTypesList
         'slm' => [
             'text/slim',
         ],
+        'spdx' => [
+            'text/spdx',
+        ],
         'stylus' => [
             'text/stylus',
         ],
@@ -3229,6 +3397,9 @@ final readonly class MimeTypesList
         'scurl' => [
             'text/vnd.curl.scurl',
         ],
+        'ged' => [
+            'text/vnd.familysearch.gedcom',
+        ],
         'fly' => [
             'text/vnd.fly',
         ],
@@ -3255,6 +3426,9 @@ final readonly class MimeTypesList
         ],
         'vtt' => [
             'text/vtt',
+        ],
+        'wgsl' => [
+            'text/wgsl',
         ],
         's' => [
             'text/x-asm',
@@ -3370,11 +3544,11 @@ final readonly class MimeTypesList
         'h264' => [
             'video/h264',
         ],
+        'm4s' => [
+            'video/iso.segment',
+        ],
         'jpgv' => [
             'video/jpeg',
-        ],
-        'jpgm' => [
-            'video/jpm',
         ],
         'mj2' => [
             'video/mj2',
@@ -3385,13 +3559,13 @@ final readonly class MimeTypesList
         'ts' => [
             'video/mp2t',
         ],
-        'mp4' => [
-            'video/mp4',
+        'm2t' => [
+            'video/mp2t',
+        ],
+        'm2ts' => [
+            'video/mp2t',
         ],
         'mp4v' => [
-            'video/mp4',
-        ],
-        'mpg4' => [
             'video/mp4',
         ],
         'mpeg' => [
