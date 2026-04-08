@@ -18,25 +18,19 @@ use RuntimeException;
 use function filemtime;
 use function gmdate;
 use function is_string;
-use function md5_file;
+use function sprintf;
 use function time;
 
 use const DATE_RFC7231;
 
-final class AssetManager
+final readonly class AssetManager
 {
-    private ResolverInterface $resolver;
-    private StreamFactoryInterface $streamFactory;
-    private ResponseFactoryInterface $responseFactory;
-
     public function __construct(
-        ResolverInterface $resolver,
-        StreamFactoryInterface $streamFactory,
-        ResponseFactoryInterface $responseFactory,
+        private ResolverInterface $resolver,
+        private StreamFactoryInterface $streamFactory,
+        private ResponseFactoryInterface $responseFactory,
+        private int $maxAge = 86400,
     ) {
-        $this->resolver = $resolver;
-        $this->streamFactory = $streamFactory;
-        $this->responseFactory = $responseFactory;
     }
 
     public function resolvesToAsset(RequestInterface $request): bool
@@ -57,11 +51,16 @@ final class AssetManager
             $lastModified = time();
         }
 
-        $etagFile = md5_file($asset->getPath());
-        if ($etagFile === false) {
+        $contentLength = $asset->getContentLength();
+        if ($contentLength === '0') {
             $etagFile = null;
+        } else {
+            $etagFile = sprintf(
+                '%x-%x',
+                $lastModified,
+                $contentLength,
+            );
         }
-
         $serverParams = $request->getServerParams();
         /** @var string|null $ifModifiedSince */
         $ifModifiedSince = $serverParams['HTTP_IF_MODIFIED_SINCE'] ?? null;
@@ -84,7 +83,7 @@ final class AssetManager
 
         $response = $this->responseFactory->createResponse()
             ->withAddedHeader('Last-Modified', gmdate(DATE_RFC7231, $lastModified))
-            ->withAddedHeader('Cache-Control', 'public');
+            ->withAddedHeader('Cache-Control', sprintf('public, max-age=%d', $this->maxAge));
         if ($etagFile !== null) {
             $response = $response->withAddedHeader('Etag', $etagFile);
         }
@@ -97,7 +96,7 @@ final class AssetManager
             ->withStatus(StatusCodeInterface::STATUS_OK)
             ->withAddedHeader('Content-Transfer-Encoding', 'binary')
             ->withAddedHeader('Content-Type', $asset->getMimeType())
-            ->withAddedHeader('Content-Length', $asset->getContentLength())
+            ->withAddedHeader('Content-Length', $contentLength)
             ->withBody($this->streamFactory->createStreamFromFile($asset->getPath()));
     }
 }

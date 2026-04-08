@@ -8,7 +8,7 @@ use Override;
 use SplFileInfo;
 
 use function file_get_contents;
-use function strlen;
+use function filesize;
 use function strtolower;
 
 final class FileAsset implements AssetInterface
@@ -50,7 +50,8 @@ final class FileAsset implements AssetInterface
     #[Override]
     public function getContentLength(): string
     {
-        return (string)strlen($this->getContent());
+        $size = filesize($this->fullPath);
+        return $size === false ? '0' : (string)$size;
     }
 
     private function getExtension(): string

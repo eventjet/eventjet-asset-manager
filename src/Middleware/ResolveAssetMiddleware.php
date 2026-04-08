@@ -11,9 +11,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-final class ResolveAssetMiddleware implements MiddlewareInterface
+final readonly class ResolveAssetMiddleware implements MiddlewareInterface
 {
-    public function __construct(private readonly AssetManager $assetManager)
+    public function __construct(private AssetManager $assetManager)
     {
     }
 
